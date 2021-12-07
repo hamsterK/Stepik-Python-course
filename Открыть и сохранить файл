@@ -1,0 +1,15 @@
+import requests
+
+# r = requests.get('https://stepic.org/media/attachments/course67/3.6.2/726.txt')
+# print(len(r.text.splitlines()))
+
+r = requests.get('https://stepic.org/media/attachments/course67/3.6.3/699991.txt')
+while (True):
+    lines = r.text.splitlines()
+    print('\n'.join(lines))
+    if lines[0].split()[0] == 'We':
+        with open('out.txt', 'w') as out:
+            for i in lines:
+                out.write(i + '\n')
+        break
+    r = requests.get('https://stepic.org/media/attachments/course67/3.6.3/' + lines[0])
