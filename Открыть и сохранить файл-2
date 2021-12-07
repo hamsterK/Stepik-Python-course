@@ -1,0 +1,22 @@
+arr = []
+
+with open('dataset.txt') as inf:
+    for line in inf:
+        row = line.strip().split(';')
+        arr.append([int(i) for i in row[1:]])
+
+print(arr)
+ouf = open('out.txt', 'w')
+for i in arr:
+    sum = 0
+    for j in i:
+        sum += j
+    ouf.write(str(sum / len(i)) + '\n')
+
+for i in range(len(arr[0])):
+    sum = 0
+    for j in range(len(arr)):
+        sum += arr[j][i]
+    ouf.write(str(sum / len(arr)) + ' ')
+
+ouf.close()
