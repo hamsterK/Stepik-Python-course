@@ -1,0 +1,27 @@
+'''
+Вам дана в архиве (ссылка) файловая структура, состоящая из директорий и файлов.
+
+Вам необходимо распаковать этот архив, и затем найти в данной в файловой структуре все директории, в которых есть хотя бы один файл с расширением ".py". 
+
+Ответом на данную задачу будет являться файл со списком таких директорий, отсортированных в лексикографическом порядке.
+'''
+
+import zipfile, requests, io
+r = requests.get('https://stepik.org/media/attachments/lesson/24465/main.zip')
+with zipfile.ZipFile(io.BytesIO(r.content)) as zf:
+    files_list = zf.namelist() # ZipFile.namelist() Return a list of archive members by name
+
+directories_list = []
+for file in files_list:
+    if file[-3::] == '.py':
+        directories_list.append('/'.join(file.split('/')[:-1]))
+
+directories_list = sorted(directories_list)
+final_list = []
+for file in directories_list:
+    if file not in final_list:
+        final_list.append(file)
+
+with open('directories_list.txt', 'w+', encoding="utf8") as info:
+    for directory_name in final_list:
+        info.write(directory_name + '\n')
